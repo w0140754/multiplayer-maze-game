@@ -13,15 +13,28 @@ let player = { x: 400, y: 300, size: 20 };
 let players = {};
 let coins = [];
 
+// Load images
+const catImg = new Image();
+catImg.src = '/images/cat.png';
+const milkImg = new Image();
+milkImg.src = '/images/milk.png';
+const fishImg = new Image();
+fishImg.src = '/images/fish.png';
+const grassImg = new Image();
+grassImg.src = '/images/grass.png';
+const rockImg = new Image();
+rockImg.src = '/images/rock.png';
+
+// Send player name to server
 socket.emit('setName', playerName);
 
 // Draw functions
-function drawPlayer(p) {
-    ctx.fillStyle = p.color || 'lime';
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fill();
+function drawBackground() {
+    ctx.drawImage(grassImg, 0, 0, canvas.width, canvas.height);
+}
 
+function drawPlayer(p) {
+    ctx.drawImage(catImg, p.x - p.size, p.y - p.size, p.size*2, p.size*2);
     ctx.fillStyle = 'white';
     ctx.font = '16px Arial';
     ctx.textAlign = 'center';
@@ -29,10 +42,8 @@ function drawPlayer(p) {
 }
 
 function drawCoin(c) {
-    ctx.fillStyle = c.type === 'fish' ? 'blue' : 'white';
-    ctx.beginPath();
-    ctx.arc(c.x, c.y, c.size, 0, Math.PI * 2);
-    ctx.fill();
+    const img = c.type === 'fish' ? fishImg : milkImg;
+    ctx.drawImage(img, c.x - c.size, c.y - c.size, c.size*2, c.size*2);
 }
 
 function drawWalls() {
@@ -42,8 +53,9 @@ function drawWalls() {
         { x: 250, y: 200, width: 300, height: 20 },
         { x: 250, y: 360, width: 300, height: 20 }
     ];
-    ctx.fillStyle = 'gray';
-    walls.forEach(w => ctx.fillRect(w.x, w.y, w.width, w.height));
+    walls.forEach(w => {
+        ctx.drawImage(rockImg, w.x, w.y, w.width, w.height);
+    });
 }
 
 function drawLeaderboard() {
@@ -59,8 +71,7 @@ function drawLeaderboard() {
 
 // Game loop
 function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    drawBackground();
     drawWalls();
     coins.forEach(drawCoin);
     for (let id in players) {

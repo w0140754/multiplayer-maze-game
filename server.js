@@ -7,7 +7,7 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 app.use(express.static('public'));
-app.use(express.static('src')); // optional if main.js is here
+app.use(express.static('src')); // if main.js is in src
 
 let players = {};
 let coins = [];
@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
             if (dist < playerObj.size + c.size) {
                 playerObj.score += 1;
                 spawnCoin();
-                return false; // remove collected coin
+                return false;
             }
             return true;
         });
