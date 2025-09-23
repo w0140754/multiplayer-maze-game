@@ -1,0 +1,18 @@
+{
+  "Player": {
+    "score": 10,
+    "password": "mypassword1"
+  },
+  "Moo": {
+    "score": 1,
+    "password": "abc123"
+  },
+  "Mooza": {
+    "score": 1,
+    "password": "letmein"
+  },
+  "z": {
+    "score": 3,
+    "password": "pass123"
+  }
+}
